@@ -4,18 +4,18 @@ process doHumann3{
   cpus params.resources.doHumann3.cpus
   memory params.resources.doHumann3.mem
   queue params.resources.doHumann3.queue
-  clusterOptions params.resources.doHumann3.clusterOptions
   //array params.resources.array_size
+  clusterOptions '--qos=short --time=20:00:00' //params.resources.doHumann3.clusterOptions
   errorStrategy { task.exitStatus in 1..2 ? 'retry' : 'ignore' }
   maxRetries 10
   publishDir "$results_dir/mg13_humann3", mode: 'symlink'
   input:
-    path bowtie2db
-    val metaphlan_index
-    tuple(val(illumina_id), path(fastq_merged))
+  path bowtie2db
+  val metaphlan_index
+  tuple(val(illumina_id), path(fastq_merged))
 
   output:
-    path("${illumina_id}_humann3results/*.tsv")
+  path("${illumina_id}_humann3results/*.tsv")
   
   shell:
   '''
