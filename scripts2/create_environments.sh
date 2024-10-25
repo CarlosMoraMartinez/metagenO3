@@ -168,3 +168,11 @@ ganon build -g fungi protozoa -d FngPrt -c -t 30
 conda create -y --name centrifuger-env python=3.10
 conda activate centrifuger-env
 conda install -y -c conda-forge -c bioconda centrifuger
+
+# KRAKENUNIQ
+
+conda create -y --name krakenuniq-env python=3.10
+conda activate krakenuniq-env
+conda install -y bioconda::krakenuniq
+conda install -y bioconda::blast #Needed for dust 
+conda install conda-forge::jellyfish
