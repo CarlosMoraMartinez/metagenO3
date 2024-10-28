@@ -23,7 +23,7 @@ process combineMpa{
 
   combine_mpa.py -i !{mpa} -o $outfile
   grep -E "(!{letter}__)|(#Classification)" $outfile > $outfile2
-  sed -e 's/.!{taxonomy_level_name}.!{programlab}.bracken.report.txt//g' $outfile2 > $outfile3
+  sed -e 's/.!{programlab}.!{taxonomy_level_name}.bracken.report.txt//g' $outfile2 > $outfile3
 
   '''
 
