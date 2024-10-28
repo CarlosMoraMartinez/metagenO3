@@ -26,7 +26,7 @@ process callKrakenUniq{
 
   krakenuniq --db !{kudatabase} \
         --threads !{params.resources.callKrakenUniq.cpus} \
-        --unclassified-out $unclassified_1.txku.fastq \
+        --unclassified-out $unclassified'_1.txku.fastq' \
         --hll-precision !{params.callKrakenUniq.hllprecision} \
         --paired !{fastq[0]} !{fastq[1]} \
         --output $outfile \
