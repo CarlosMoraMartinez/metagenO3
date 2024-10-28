@@ -26,7 +26,7 @@ process callKrakenUniq{
 
   krakenuniq --db !{kudatabase} \
         --threads !{params.resources.callKrakenUniq.cpus} \
-        --unclassified-out $unclassified#.txku.fastq \
+        --unclassified-out $unclassified_1.txku.fastq \
         --hll-precision !{params.callKrakenUniq.hllprecision} \
         --paired !{fastq[0]} !{fastq[1]} \
         --output $outfile \
@@ -37,7 +37,7 @@ process callKrakenUniq{
 
   stub:
   """
-  touch $illumina_id'.unclassified_1.txku.fastq.gz' $illumina_id'.unclassified_2.txku.fastq.gz'
+  touch $illumina_id'.unclassified_1.txku.fastq.gz'
   touch $illumina_id'.standard.krakenuniq.gz'
   touch $illumina_id'.standard.krakenuniq.err'
   touch $illumina_id'.standard.krakenuniq.report'
