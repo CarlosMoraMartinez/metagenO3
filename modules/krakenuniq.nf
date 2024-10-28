@@ -31,7 +31,7 @@ process callKrakenUniq{
         --paired !{fastq[0]} !{fastq[1]} \
         --output $outfile \
         --report-file $report 2> $summary
-  pigz -p 4 $unclassified'_1.txku.fastq' $unclassified'_2.txku.fastq'
+  pigz -p 4 $unclassified'_1.txku.fastq' 
   pigz -p 4 $outfile
   '''
 
