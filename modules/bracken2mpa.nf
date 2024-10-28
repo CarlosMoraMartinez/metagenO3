@@ -8,12 +8,12 @@ process braken2mpa{
   clusterOptions params.resources.braken2mpa.clusterOptions
   errorStrategy { task.exitStatus in 1..2 ? 'retry' : 'ignore' }
   maxRetries 10
-  publishDir "$results_dir/mg08_mpa", mode: 'symlink'
+  publishDir "$results_dir/mg08_mpa_$programlab", mode: 'symlink'
   input:
-  tuple(val(illumina_id), val(taxonomy_level_name), path(bracken_report))
+  tuple(val(programlab), val(illumina_id), val(taxonomy_level_name), path(bracken_report))
 
   output:
-  tuple(val(illumina_id), val(taxonomy_level_name), path("*.mpa.txt"))
+  tuple(val(programlab), val(illumina_id), val(taxonomy_level_name), path("*.mpa.txt"))
   
 
   shell:
@@ -21,4 +21,10 @@ process braken2mpa{
   outfile=$(basename -s .txt !{bracken_report}).mpa.txt
   kreport2mpa.py -r !{bracken_report} -o $outfile --display-header
   '''
+
+  stub:
+  """
+  outfile=\$(basename -s .txt $bracken_report ).mpa.txt
+  touch \$outfile
+  """
 }
