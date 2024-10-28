@@ -170,9 +170,22 @@ conda activate centrifuger-env
 conda install -y -c conda-forge -c bioconda centrifuger
 
 # KRAKENUNIQ
-
 conda create -y --name krakenuniq-env python=3.10
 conda activate krakenuniq-env
 conda install -y bioconda::krakenuniq
 conda install -y bioconda::blast #Needed for dust 
 conda install conda-forge::jellyfish
+
+#k-SLAM
+conda create -y --name kslam-env python=3.10
+conda activate kslam-env
+#conda install -y bioconda::k-slam
+#conda install -y bioconda/label/cf201901::k-slam
+
+sudo apt-get install libboost-all-dev
+git clone https://github.com/aindj/k-SLAM
+cd k-SLAM/build/
+cp SLAM /home/carmoma/miniforge3/envs/kslam-env/bin
+
+# CCMETAGEN
+conda create -n ccmetagen ccmetagen -c bioconda -c conda-forge

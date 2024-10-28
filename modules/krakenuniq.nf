@@ -1,38 +1,46 @@
-process callKraken2{
-  label 'mg06_kraken2'
-  conda params.callKraken2.conda
-  cpus params.resources.callKraken2.cpus
-  memory params.resources.callKraken2.mem
-  queue params.resources.callKraken2.queue
+process callKrakenUniq{
+  label 'mg06_krakenuniq'
+  conda params.callKrakenUniq.conda
+  cpus params.resources.callKrakenUniq.cpus
+  memory params.resources.callKrakenUniq.mem
+  queue params.resources.callKrakenUniq.queue
   //array params.resources.array_size
-  clusterOptions params.resources.callKraken2.clusterOptions
+  clusterOptions params.resources.callKrakenUniq.clusterOptions
   errorStrategy { task.exitStatus in 1..2 ? 'retry' : 'ignore' }
   maxRetries 10
-  publishDir "$results_dir/mg06_kraken2", mode: 'symlink'
+  publishDir "$results_dir/mg06_krakenuniq", mode: 'symlink'
   input:
-  path k2database
-  val confidence
+  path kudatabase
   tuple(val(illumina_id), path(fastq))
 
   output:
-  tuple(val(illumina_id), path("*standard.kraken2.gz"), path("*.standard.kraken2.report") ,path("*tx.fastq.gz"), path("*kraken2.err"))
+  tuple(val(illumina_id), path("*standard.krakenuniq.gz"), path("*.standard.krakenuniq.report") ,path("*txku.fastq.gz"), path("*krakenuniq.err"))
   
 
   shell:
   '''
-  outfile=!{illumina_id}.standard.kraken2
-  report=!{illumina_id}.standard.kraken2.report
+  outfile=!{illumina_id}.standard.krakenuniq
+  report=!{illumina_id}.standard.krakenuniq.report
   unclassified=!{illumina_id}.unclassified
-  summary=!{illumina_id}.standard.kraken2.err
+  summary=!{illumina_id}.standard.krakenuniq.err
 
-  kraken2 --db !{k2database} \
-        --confidence !{confidence} \
-        --threads !{params.resources.callKraken2.cpus} \
-        --unclassified-out $unclassified#.tx.fastq \
+  krakenuniq --db !{kudatabase} \
+        --threads !{params.resources.callKrakenUniq.cpus} \
+        --unclassified-out $unclassified#.txku.fastq \
+        --hll-precision !{params.callKrakenUniq.hllprecision} \
         --paired !{fastq[0]} !{fastq[1]} \
         --output $outfile \
-        --report $report 2> $summary
-  pigz -p 4 $unclassified'_1.tx.fastq' $unclassified'_2.tx.fastq'
+        --report-file $report 2> $summary
+  pigz -p 4 $unclassified'_1.txku.fastq' $unclassified'_2.txku.fastq'
   pigz -p 4 $outfile
   '''
+
+  stub:
+  """
+  touch $illumina_id'.unclassified_1.txku.fastq.gz' $illumina_id'.unclassified_2.txku.fastq.gz'
+  touch $illumina_id'.standard.krakenuniq.gz'
+  touch $illumina_id'.standard.krakenuniq.err'
+  touch $illumina_id'.standard.krakenuniq.report'
+  """
+
 }

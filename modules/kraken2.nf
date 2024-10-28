@@ -35,4 +35,12 @@ process callKraken2{
   pigz -p 4 $unclassified'_1.tx.fastq' $unclassified'_2.tx.fastq'
   pigz -p 4 $outfile
   '''
+
+  stub:
+  """
+  touch $illumina_id'.unclassified_1.tx.fastq.gz' $illumina_id'.unclassified_2.tx.fastq.gz'
+  touch $illumina_id'.standard.kraken2.gz'
+  touch $illumina_id'.standard.kraken2.err'
+  touch $illumina_id'.standard.kraken2.report'
+  """
 }

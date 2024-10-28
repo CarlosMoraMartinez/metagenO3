@@ -42,6 +42,7 @@ workflow {
       KRAKEN2BRACKEN(ch_fastq_filtered)
       //Get outputs (not all of them are used)
       ch_kraken2_output = KRAKEN2BRACKEN.out.ch_kraken2_output
+      ch_krakenuniq_output = KRAKEN2BRACKEN.out.ch_krakenuniq_output
       ch_bracken_output = KRAKEN2BRACKEN.out.ch_bracken_output
       ch_transform2mpa_output = KRAKEN2BRACKEN.out.ch_transform2mpa_output
       ch_combineMpa_output = KRAKEN2BRACKEN.out.ch_combineMpa_output
