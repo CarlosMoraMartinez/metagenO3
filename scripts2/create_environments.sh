@@ -185,7 +185,24 @@ conda activate kslam-env
 sudo apt-get install libboost-all-dev
 git clone https://github.com/aindj/k-SLAM
 cd k-SLAM/build/
+make
 cp SLAM /home/carmoma/miniforge3/envs/kslam-env/bin
 
 # CCMETAGEN
 conda create -n ccmetagen ccmetagen -c bioconda -c conda-forge
+
+# PROPHYLE
+conda create -y --name prophyle-env python=3.10
+conda activate prophyle-env
+conda install -y prophyle
+conda install -y bioconda::blast #dust
+
+#DUDES 
+conda create -y --name dudes-env python=3.11
+conda activate dudes-env
+conda install -y -c bioconda dudes
+
+#KMCP
+conda create -y --name kmcp-env python=3.11
+conda activate kmcp-env
+conda install -y -c bioconda kmcp
