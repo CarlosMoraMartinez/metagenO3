@@ -21,14 +21,13 @@ process KMCPComputeKmers{
 
   kmcp compute \
     --in-dir !{fasta_dir} \
-    --threads !{params.resources.KMCPComputeKmers.cpus}
-    --ref-name-regexp "^([a-zA-Z._]+.d+)" \
-    --seq-name-filter !{params.KMCPcomputeKmers.seqname_filter} \
-    --kmer !{params.KMCPcomputeKmers.kmer} \
-    --split-number !{params.KMCPcomputeKmers.split_number} \
-    --split-overlap !{params.KMCPcomputeKmers.split_overlap} \
+    --threads !{params.resources.KMCPComputeKmers.cpus} \
+    --seq-name-filter !{params.KMCPComputeKmers.seqname_filter} \
+    --kmer !{params.KMCPComputeKmers.kmer} \
+    --split-number !{params.KMCPComputeKmers.split_number} \
+    --split-overlap !{params.KMCPComputeKmers.split_overlap} \
     --out-dir kmercount_!{db_name} \
-    !{params.KMCPcomputeKmers.extra_args} --force \
+    !{params.KMCPComputeKmers.extra_args} --force \
     --log kmercount_!{db_name}.log 2> kmercount_!{db_name}.err
 
   '''

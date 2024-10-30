@@ -20,7 +20,7 @@ process KMCPIndex{
 
  kmcp index \
     --in-dir !{kmercount} \
-    --threads !{params.resources.KMCPIndex.cpus}
+    --threads !{params.resources.KMCPIndex.cpus} \
     !{params.KMCPIndex.fprate} \
     --num-hash !{params.KMCPIndex.numhash} \
     --false-positive-rate !{params.KMCPIndex.fprate} \

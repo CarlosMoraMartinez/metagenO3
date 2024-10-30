@@ -14,7 +14,7 @@ workflow KMCP {
   main:
   //Call Kraken2
 
-  if(params.KMCPcomputeKmers.do){
+  if(params.KMCPComputeKmers.do){
     KMCPComputeKmers(
         params.KMCPComputeKmers.db_name,
         params.KMCPComputeKmers.fasta_dir
@@ -36,6 +36,7 @@ workflow KMCP {
   }
 
   ch_kmcpsearch_in = ch_kmcp_index_out
+  .map{it -> tuple(it[0], it[1])}
   .combine(ch_fastq_filtered)
   .view{"KMCPSearch input: $it"}
   KMCPSearch(ch_kmcpsearch_in)
@@ -43,7 +44,7 @@ workflow KMCP {
    .view{"KMCPSearch output: $it"}
 
   ch_kmcpprofile_in = ch_kmcpsearch_out
-  .map{it -> it[0..3]}
+  .map{it -> it[0..2]}
   KMCPProfile(
     params.KMCPProfile.taxidmap,
     params.KMCPProfile.taxonomy,

@@ -15,23 +15,22 @@ process KMCPProfile{
   tuple(val(illumina_id), val(db_name), path(samplekmcp))
 
   output:
-  tuple(val(illumina_id), val(db_name), path("*kmcp.profile"), path("*kmcp.profile.metaphlan"), path("*kmcp.profile.cami"), path("*kmcp.profile.binning.gz"), path("*kmcp.profile.log"), )
+  tuple(val(illumina_id), val(db_name), path("*kmcp.profile"), path("*kmcp.metaphlan.profile"), path("*kmcp.cami.profile"), path("*kmcp.binning.gz"), path("*kmcp.log"), )
   
 
   shell:
   '''
-  outname=!{illumina_id}_!{db_name}.kmcp.profile
+  outname=!{illumina_id}_!{db_name}.kmcp
 
   kmcp profile \
         --taxid-map !{taxidmap} \
         --taxdump !{taxonomy} \
         !{samplekmcp} \
-        --threads !{params.resources.KMCPProfile.cpus}
-        --mode !{params.KMCPProfile.mode} \
-        !{params.KMCPProfile.extra_args} \
-        --out-file $outname \
+        --threads !{params.resources.KMCPProfile.cpus} \
+        --mode !{params.KMCPProfile.mode} !{params.KMCPProfile.extra_args} \
+        --out-file $outname'.profile' \
         --metaphlan-report $outname'.metaphlan' \
-        --sample-id 0 \
+        --sample-id !{illumina_id} \
         --cami-report $outname'.cami' \
         --binning-result $outname'.binning.gz' \
         --log $outname'.log' 2> $outname'.err'

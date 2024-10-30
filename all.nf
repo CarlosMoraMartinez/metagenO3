@@ -89,8 +89,8 @@ workflow {
    // Call KMCP workflow
    if(params.workflows.doKMCP){
       KMCP(ch_fastq_filtered)
-      ch_kmcp_index_out = CENTRIFUGER.out.ch_centrifuger_downloads
-      ch_kmcpprofile_out = CENTRIFUGER.out.ch_centrifuger_index
+      ch_kmcp_index_out = KMCP.out.ch_kmcp_index_out
+      ch_kmcpprofile_out = KMCP.out.ch_kmcpprofile_out
    }else{
       ch_kmcp_index_out = Channel.from([])
       ch_kmcpprofile_out = Channel.from([])

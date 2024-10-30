@@ -20,10 +20,10 @@ process KMCPSearch{
   '''
   outname=!{illumina_id}_!{db_name}.kmcp
   kmcp search \
-    --threads !{params.resources.KMCPSearch.cpus}
-    !{params.KMCPSearch.extra_args}
+    --threads !{params.resources.KMCPSearch.cpus} \
+    !{params.KMCPSearch.extra_args} \
     --db-dir !{db_dir} \
-    !{fastq[0]} !{fastq[1]}
+    !{fastq[0]} !{fastq[1]} \
     --out-file $outname'.gz' \
     --log $outname'.log' 2> $outname'.err'
   '''
