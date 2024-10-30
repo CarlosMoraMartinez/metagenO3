@@ -34,7 +34,8 @@ workflow KRAKEN2BRACKEN {
   }
 
   if(params.resources.callKrakenUniq.do){
-    callKrakenUniq(params.callKrakenUniq.kudatabase,
+    callKrakenUniq(
+            params.callKrakenUniq.kudatabase,
             ch_fastq_filtered
     )
     ch_krakenuniq_output = callKrakenUniq.out

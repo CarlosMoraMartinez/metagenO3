@@ -6,6 +6,7 @@ include { MULTIQC } from './workflows/multiqcwf.nf'
 include { HUMANN3 } from './workflows/humann3wf.nf'
 include { METAPHLAN } from './workflows/metaphlanwf.nf'
 include { CENTRIFUGER } from './workflows/centrifugerwf.nf'
+include { KMCP } from './workflows/kmcpwf.nf'
 
 
 workflow {
@@ -83,6 +84,16 @@ workflow {
    }else{
       ch_centrifuger_downloads = Channel.from([])
       ch_centrifuger_index = Channel.from([])
+   }
+
+   // Call KMCP workflow
+   if(params.workflows.doKMCP){
+      KMCP(ch_fastq_filtered)
+      ch_kmcp_index_out = CENTRIFUGER.out.ch_centrifuger_downloads
+      ch_kmcpprofile_out = CENTRIFUGER.out.ch_centrifuger_index
+   }else{
+      ch_kmcp_index_out = Channel.from([])
+      ch_kmcpprofile_out = Channel.from([])
    }
 
    //Call MultiQC workflow

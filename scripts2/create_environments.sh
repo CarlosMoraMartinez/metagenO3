@@ -206,3 +206,8 @@ conda install -y -c bioconda dudes
 conda create -y --name kmcp-env python=3.11
 conda activate kmcp-env
 conda install -y -c bioconda kmcp
+# conda install -y -c bioconda csvtk taxonkit seqkit # -> not really needed
+
+ #OPAL for comparison to ground truth
+ # https://github.com/CAMI-challenge/OPAL?tab=readme-ov-file#inputs
+ 
