@@ -40,9 +40,9 @@ process KMCPProfile{
   stub:
   """
   touch $illumina_id'_'$db_name'.kmcp.profile'
-  touch $illumina_id'_'$db_name'.kmcp.profile.metaphlan'
-  touch $illumina_id'_'$db_name'.kmcp.profile.cami'
-  touch $illumina_id'_'$db_name'.kmcp.profile.binning.gz'
-  touch $illumina_id'_'$db_name'.kmcp.profile.log'
+  touch $illumina_id'_'$db_name'.kmcp.metaphlan.profile'
+  touch $illumina_id'_'$db_name'.kmcp.cami.profile'
+  touch $illumina_id'_'$db_name'.kmcp.binning.gz'
+  touch $illumina_id'_'$db_name'.kmcp.log'
   """
 }
