@@ -7,6 +7,7 @@ include { HUMANN3 } from './workflows/humann3wf.nf'
 include { METAPHLAN } from './workflows/metaphlanwf.nf'
 include { CENTRIFUGER } from './workflows/centrifugerwf.nf'
 include { KMCP } from './workflows/kmcpwf.nf'
+include { GANON2 } from './workflows/ganon2wf.nf'
 
 
 workflow {
@@ -94,6 +95,16 @@ workflow {
    }else{
       ch_kmcp_index_out = Channel.from([])
       ch_kmcpprofile_out = Channel.from([])
+   }
+
+   // Call GANON2 workflow
+   if(params.workflows.doGanon2){
+      GANON2(ch_fastq_filtered)
+      ch_ganonbuild_output = GANON2.out.ch_ganonbuild_output
+      ch_ganonclassify_out = GANON2.out.ch_ganonclassify_out
+   }else{
+      ch_ganonbuild_output = Channel.from([])
+      ch_ganonclassify_out = Channel.from([])
    }
 
    //Call MultiQC workflow

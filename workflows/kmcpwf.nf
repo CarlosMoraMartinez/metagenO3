@@ -1,9 +1,9 @@
 
 
-include { KMCPComputeKmers } from '../modules/kmcp_computekmers'
-include { KMCPIndex } from '../modules/kmcp_index'
-include { KMCPSearch } from '../modules/kmcp_search'
-include { KMCPProfile } from '../modules/kmcp_profile'
+include { KMCPComputeKmers } from '../modules/kmcp_computekmers.nf'
+include { KMCPIndex } from '../modules/kmcp_index.nf'
+include { KMCPSearch } from '../modules/kmcp_search.nf'
+include { KMCPProfile } from '../modules/kmcp_profile.nf'
 
 
 
@@ -12,7 +12,6 @@ workflow KMCP {
   ch_fastq_filtered
 
   main:
-  //Call Kraken2
 
   if(params.KMCPComputeKmers.do){
     KMCPComputeKmers(

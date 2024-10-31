@@ -25,7 +25,7 @@ ganon classify --db-prefix FngPrt \
 
   ## Build custom
 
-  ganon build-custom -e 'fna' -d eupath_ganon2 --taxonomy skip \
+  ganon build-custom -e 'fna' -d eupath_ganon2 --taxonomy skip --skip-genome-size \
     -i /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/eupathdb/library 
 
   ganon classify --db-prefix eupath_ganon2 \
@@ -37,9 +37,10 @@ ganon classify --db-prefix FngPrt \
   --paired-reads /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/fastq/yeast_1.fastq.gz /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/fastq/yeast_2.fastq.gz \
   --output-prefix results_ganon_eupath1 --threads 12  
 
+
   ganon build-custom -e 'fna' \
-    -i /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/eupathdb/library \
     --skip-genome-size \
-    -d eupath_ganon2 -l species \
-    -n /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/eupathdb/intentomapid.map \
-    --taxonomy-files /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/KMCP/taxonomy
+    -d eupath_ganon2_tax1 -l species \
+    -n /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/eupathdb/intentomapid_ganon.map \
+    --taxonomy-files /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/KMCP/taxonomy/nodes.dmp \
+    --taxonomy ncbi
