@@ -8,10 +8,10 @@ process GanonBuildCustom{
   clusterOptions params.resources.GanonBuildCustom.clusterOptions
   errorStrategy { task.exitStatus in 1..2 ? 'retry' : 'ignore' }
   maxRetries 10
-  publishDir "$results_dir/mg24_ganon_buildcustom", mode: 'symlink'
+  publishDir "$results_dir/mg24_ganon_buildcustom_$db_name", mode: 'symlink'
   input:
   val(db_name)
-  path(fasta_dir)
+  path(input_file)
 
   output:
   tuple(val(db_name), path(db_name))
@@ -21,8 +21,9 @@ process GanonBuildCustom{
   mkdir !{db_name}
 
    ganon build-custom -e !{params.GanonBuildCustom.fasta_extension} \
-    -d !{db_name}/!{db_name} --taxonomy skip --skip-genome-size \
-    -i !{fasta_dir} \
+    -d !{db_name}/!{db_name} \
+    --input-file !{input_file} \
+    !{params.GanonBuildCustom.taxonomy} \
     !{params.GanonBuildCustom.extra_args} \
     -t !{params.resources.GanonBuildCustom.cpus} > !{db_name}'.log' 2>!{db_name}'.err'
 

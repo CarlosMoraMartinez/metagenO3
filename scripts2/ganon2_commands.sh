@@ -38,9 +38,16 @@ ganon classify --db-prefix FngPrt \
   --output-prefix results_ganon_eupath1 --threads 12  
 
 
-  ganon build-custom -e 'fna' \
-    --skip-genome-size \
-    -d eupath_ganon2_tax1 -l species \
-    -n /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/eupathdb/intentomapid_ganon.map \
-    --taxonomy-files /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/KMCP/taxonomy/nodes.dmp \
-    --taxonomy ncbi
+  ## tests with taxonomy
+
+    #ganon build-custom -e 'fna' \
+  #  --skip-genome-size \
+  #  -d eupath_ganon2_tax1 -l species \
+  #  -n /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/eupathdb/intentomapid_ganon.map \
+  #  --taxonomy-files /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/KMCP/taxonomy/nodes.dmp \
+  #  --taxonomy ncbi
+  
+  ganon build-custom -e fna -d Eupathtest2/Eupathtest2 \
+    --taxonomy-files /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/KMCP/taxonomy/nodes.dmp /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/KMCP/taxonomy/names.dmp \
+    --input-file /home/carmoma/projects/TFM_MiguelAngelEsteve/test_software/eupathdb/intentomapid_ganon2.map  -t 8
+  

@@ -22,7 +22,7 @@ workflow GANON2 {
   }else if(params.GanonBuildCustom.do){
     GanonBuildCustom(
         params.GanonBuildCustom.db_name,
-        params.GanonBuildCustom.fasta_dir
+        params.GanonBuildCustom.input_file
     )
     ch_ganonbuild_output = GanonBuildCustom.out
     .view{"GanonBuildCustom output: $it"}
