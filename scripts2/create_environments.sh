@@ -157,12 +157,36 @@ conda create -y --name mash-env python=3.10
 conda activate mash-env
 conda install -y -c bioconda mash
 
-## GANON -> doesnt work fine
-conda create -y --name ganon-env python=3.10
-conda activate ganon-env
-conda install -y -c bioconda -c conda-forge ganon
-ganon build -g archaea bacteria fungi protozoa -d ArcBctFngPrt -c -t 30
-ganon build -g fungi protozoa -d FngPrt -c -t 30
+## GANON2
+# https://pirovc.github.io/ganon/#installation-from-source
+conda create -y --name ganon2-env python=3.11
+conda activate ganon2-env
+python3 -m pip install "pandas>=1.2.0" "multitax>=1.3.1"
+# Conda/Mamba (alternative)
+#wget --quiet --show-progress https://raw.githubusercontent.com/pirovc/genome_updater/master/genome_updater.sh && chmod +x genome_updater.sh
+conda install -y -c conda-forge "genome_updater>=0.6.3"
+conda install -y conda-forge::parallel
+conda install -y bioconda::raptor
+# c++ dependencies
+gcc --version
+# conda install -y conda-forge::gcc # if needed
+cmake --version
+# check zlib and bzip2 installed
+
+git clone --recurse-submodules https://github.com/pirovc/ganon.git
+cd ganon
+python3 setup.py install --record files.txt
+mkdir -p build
+cmake -DCMAKE_BUILD_TYPE=Release -DVERBOSE_CONFIG=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCONDA=ON -DLONGREADS=OFF -DCMAKE_INSTALL_PREFIX=/home/carmoma/miniforge3/envs/ganon2-env/
+make -j 4
+sudo make install  # optional
+
+# run tests
+python3 -m pip install "parameterized>=0.9.0" # Alternative: conda install -c conda-forge "parameterized>=0.9.0"
+python3 -m unittest discover -s tests/ganon/integration/
+python3 -m unittest discover -s tests/ganon/integration_online/  # optional - downloads large files
+cd build/
+ctest -VV .
 
 # CENTRIFUGER
 conda create -y --name centrifuger-env python=3.10
@@ -185,7 +209,29 @@ conda activate kslam-env
 sudo apt-get install libboost-all-dev
 git clone https://github.com/aindj/k-SLAM
 cd k-SLAM/build/
+make
 cp SLAM /home/carmoma/miniforge3/envs/kslam-env/bin
 
 # CCMETAGEN
 conda create -n ccmetagen ccmetagen -c bioconda -c conda-forge
+
+# PROPHYLE
+conda create -y --name prophyle-env python=3.10
+conda activate prophyle-env
+conda install -y prophyle
+conda install -y bioconda::blast #dust
+
+#DUDES 
+conda create -y --name dudes-env python=3.11
+conda activate dudes-env
+conda install -y -c bioconda dudes
+
+#KMCP
+conda create -y --name kmcp-env python=3.11
+conda activate kmcp-env
+conda install -y -c bioconda kmcp
+# conda install -y -c bioconda csvtk taxonkit seqkit # -> not really needed
+
+ #OPAL for comparison to ground truth
+ # https://github.com/CAMI-challenge/OPAL?tab=readme-ov-file#inputs
+ 
