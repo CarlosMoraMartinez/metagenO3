@@ -21,3 +21,9 @@ sudo docker save -o dockerimage_seqkit_with_samtools.tar ccarlos/registry:seqkit
 cd /DATA12/COMUN/tmp
 sudo docker load -i dockerimage_kraken_with_pigz.tar
 sudo docker load -i dockerimage_seqkit_with_samtools.tar
+
+# Build Ganon2 image
+sudo docker build -t ccarlos/registry:ganon2 -f ganon2.dockerfile .
+sudo docker run -ti --mount type=bind,source=/home,target=/home  --entrypoint /bin/bash ccarlos/registry:ganon2
+sudo docker tag ccarlos/registry:ganon2 carlosmora91/cmora_images:ganon2
+sudo docker push carlosmora91/cmora_images:ganon2
