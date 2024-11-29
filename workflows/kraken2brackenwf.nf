@@ -15,7 +15,7 @@ workflow KRAKEN2BRACKEN {
   main:
   //Call Kraken2
 
-  if(params.resources.callKraken2.do){
+  if(params.callKraken2.do){
     callKraken2(params.callKraken2.k2database,
             params.callKraken2.confidence,
             ch_fastq_filtered
@@ -33,7 +33,7 @@ workflow KRAKEN2BRACKEN {
     ch_bracken_input1 = Channel.from([])
   }
 
-  if(params.resources.callKrakenUniq.do){
+  if(params.callKrakenUniq.do){
     callKrakenUniq(
             params.callKrakenUniq.kudatabase,
             ch_fastq_filtered
