@@ -21,12 +21,12 @@ workflow KRAKEN2BRACKEN {
             ch_fastq_filtered
     )
     ch_kraken2_output = callKraken2.out
-    .view{"Kraken2 output: $it"}
+    //.view{"Kraken2 output: $it"}
 
     ch_bracken_input1 = ch_kraken2_output
         .map{it -> tuple('K2', params.callKraken2.k2database, it[0], it[2])}
         .combine(Channel.of(['species', 'S'],['genus', 'G'],['phylum', 'P']))
-        .view{"Bracken input form Kraken2: $it"}
+        //.view{"Bracken input form Kraken2: $it"}
 
   }else{
     ch_kraken2_output = Channel.from([])
@@ -39,12 +39,12 @@ workflow KRAKEN2BRACKEN {
             ch_fastq_filtered
     )
     ch_krakenuniq_output = callKrakenUniq.out
-    .view{"Krakenuniq output: $it"}
+    //.view{"Krakenuniq output: $it"}
 
     ch_bracken_input2 = ch_krakenuniq_output
         .map{it -> tuple('KU', params.callKrakenUniq.kudatabase, it[0], it[2])}
         .combine(Channel.of(['species', 'S'],['genus', 'G'],['phylum', 'P']))
-        .view{"Bracken input fom KrakenUniq: $it"}
+        //.view{"Bracken input fom KrakenUniq: $it"}
 
   }else{
     ch_krakenuniq_output = Channel.from([])
@@ -57,23 +57,23 @@ workflow KRAKEN2BRACKEN {
   callBracken(ch_bracken_input)
 
   ch_bracken_output = callBracken.out
-    .view{"Bracken output: $it"}
+    //.view{"Bracken output: $it"}
 
  //Transform to mpa and merge
   ch_transform2mpa_input = ch_bracken_output
      .map{it -> tuple(it[0], it[1], it[2], it[4])}
   braken2mpa(ch_transform2mpa_input)
   ch_transform2mpa_output = braken2mpa.out
-    .view{"Transform to MPA output: $it"}
+    //.view{"Transform to MPA output: $it"}
     
   ch_combineMpa_input = ch_transform2mpa_output
      .map{it -> tuple(it[0], it[2], it[3])}
      .groupTuple(by:[0, 1])
      .map{it -> tuple(it[0], it[1], it[2], it[1][0])} //[1].join(' ') -> it is not necessary to concat files as a string
-     .view{"Combine MPA input: $it"}
+     //.view{"Combine MPA input: $it"}
   combineMpa(ch_combineMpa_input)
   ch_combineMpa_output = combineMpa.out
-     .view{"Combine MPA output: $it"}
+     //.view{"Combine MPA output: $it"}
  
 
   //callKronaFromKraken2: Krona plot from Kraken report
