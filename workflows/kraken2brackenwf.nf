@@ -52,29 +52,35 @@ workflow KRAKEN2BRACKEN {
   }
 
   //Call Bracken
-  ch_bracken_input = ch_bracken_input1.concat(ch_bracken_input2)
+  if(params.callBracken.do){
+    ch_bracken_input = ch_bracken_input1.concat(ch_bracken_input2)
 
-  callBracken(ch_bracken_input)
+    callBracken(ch_bracken_input)
 
-  ch_bracken_output = callBracken.out
-    //.view{"Bracken output: $it"}
+    ch_bracken_output = callBracken.out
+      //.view{"Bracken output: $it"}
 
- //Transform to mpa and merge
-  ch_transform2mpa_input = ch_bracken_output
-     .map{it -> tuple(it[0], it[1], it[2], it[4])}
-  braken2mpa(ch_transform2mpa_input)
-  ch_transform2mpa_output = braken2mpa.out
-    //.view{"Transform to MPA output: $it"}
-    
-  ch_combineMpa_input = ch_transform2mpa_output
-     .map{it -> tuple(it[0], it[2], it[3])}
-     .groupTuple(by:[0, 1])
-     .map{it -> tuple(it[0], it[1], it[2], it[1][0])} //[1].join(' ') -> it is not necessary to concat files as a string
-     //.view{"Combine MPA input: $it"}
-  combineMpa(ch_combineMpa_input)
-  ch_combineMpa_output = combineMpa.out
-     //.view{"Combine MPA output: $it"}
+    //Transform to mpa and merge
+    ch_transform2mpa_input = ch_bracken_output
+       .map{it -> tuple(it[0], it[1], it[2], it[4])}
+    braken2mpa(ch_transform2mpa_input)
+    ch_transform2mpa_output = braken2mpa.out
+      //.view{"Transform to MPA output: $it"}
+
+    ch_combineMpa_input = ch_transform2mpa_output
+       .map{it -> tuple(it[0], it[2], it[3])}
+       .groupTuple(by:[0, 1])
+       .map{it -> tuple(it[0], it[1], it[2], it[1][0])} //[1].join(' ') -> it is not necessary to concat files as a string
+       //.view{"Combine MPA input: $it"}
+    combineMpa(ch_combineMpa_input)
+    ch_combineMpa_output = combineMpa.out
+       //.view{"Combine MPA output: $it"}
  
+  }else{
+    ch_bracken_output  = Channel.from([])
+    ch_transform2mpa_output  = Channel.from([])
+    ch_combineMpa_output  = Channel.from([])
+  }
 
   //callKronaFromKraken2: Krona plot from Kraken report
   if(params.resources.callKronaFromKraken2.do_krona){
