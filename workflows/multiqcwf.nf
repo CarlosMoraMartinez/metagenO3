@@ -22,6 +22,7 @@ workflow MULTIQC{
 
   //Call multiQC process
   multiQC(params.multiQC.configyaml,
+          params.multiQC.logo,
             fastqc_coll, 
             trim_qc, 
             bowtie2_err, 

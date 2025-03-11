@@ -1,4 +1,4 @@
-custom_logo: "__PROJECTDIR__/assets/Logo-IATA-CSIC.png"
+custom_logo: "logo.png"
 title: "Metagenomics"
 subtitle: "Quality Report"
 comment: "Estudio de prueba para testar la pipeline"

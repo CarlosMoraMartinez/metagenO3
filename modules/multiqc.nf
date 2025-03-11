@@ -10,6 +10,7 @@ process multiQC{
   publishDir "$results_dir/mg11_multiqc", mode: 'copy'
   input:
     path yaml
+    path logo
     path ch_fastqc
     path trim_qc
     path bowtie2_err
@@ -23,7 +24,7 @@ process multiQC{
   shell:
   '''
   mv !{yaml} multiqc_config.yaml
-  sed -i "s/__PROJECTDIR__/!{workflow.projectDir}/" multiqc_config.yaml
+  mv !{logo} logo.png
   multiqc --filename multiqc_report.html .  
   '''
 }
