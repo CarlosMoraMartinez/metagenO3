@@ -23,7 +23,7 @@ process multiQC{
   shell:
   '''
   mv !{yaml} multiqc_config.yaml
-  sed -i "s/__PROJECTDIR__/$baseDir/" multiqc_config.yaml
+  sed -i "s/__PROJECTDIR__/!{workflow.projectDir}/" multiqc_config.yaml
   multiqc --filename multiqc_report.html .  
   '''
 }
