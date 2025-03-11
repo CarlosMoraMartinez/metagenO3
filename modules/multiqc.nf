@@ -6,7 +6,7 @@ process multiQC{
   queue params.resources.multiQC.queue
   clusterOptions params.resources.multiQC.clusterOptions
   errorStrategy { task.exitStatus in 1..2 ? 'retry' : 'ignore' }
-  maxRetries 10
+  maxRetries 1
   publishDir "$results_dir/mg11_multiqc", mode: 'copy'
   input:
     path yaml
