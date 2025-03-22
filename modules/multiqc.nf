@@ -19,7 +19,7 @@ process multiQC{
     path metaphlan_res
 
   output:
-  path("multiqc_report.html")
+  tuple(path("multiqc_report.html"), path("multiqc_report_data"))
 
   shell:
   '''
