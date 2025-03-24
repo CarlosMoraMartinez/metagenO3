@@ -25,8 +25,8 @@
 module load anaconda #3_2022.10
 
 #nextflow run all.nf -c config/eva_different_dbs/run_k2_MouseMetagenome_MGBC_CellHostMicrobe.config -profile conda -resume
-nextflow run all.nf -c config/eva_different_dbs/run_k2_MouseMetagenome_CMMG.config -profile conda -resume
-nextflow run all.nf -c config/eva_different_dbs/run_krakendb3_evaCoassembly12.config -profile conda -resume
+#nextflow run all.nf -c config/eva_different_dbs/run_k2_MouseMetagenome_CMMG.config -profile conda -resume
+#nextflow run all.nf -c config/eva_different_dbs/run_krakendb3_evaCoassembly12.config -profile conda -resume
 nextflow run all.nf -c config/eva_different_dbs/run_krakendb3_evaCoassembly13.config -profile conda -resume
 nextflow run all.nf -c config/eva_different_dbs/run_K2MGDBplusCoassGoodQCNonRed_1.config -profile conda -resume
 nextflow run all.nf -c config/eva_different_dbs/run_K2MGDBplusAssGoodQC_1.config -profile conda -resume
