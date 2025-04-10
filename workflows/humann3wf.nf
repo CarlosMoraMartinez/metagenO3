@@ -22,7 +22,7 @@ ch_humann3 = doHumann3.out
     .flatten()
     .filter{it.name.endsWith('_pathabundance.tsv') }
     .collect()
-    .view{ "Humann3 output flat: $it" }
+    //.view{ "Humann3 output flat: $it" }
 
 mergeHumann(ch_humann3)
 ch_humann3_merged = mergeHumann.out
