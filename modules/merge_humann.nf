@@ -16,7 +16,7 @@ process mergeHumann{
 
   shell:
   '''
-  humann_join_tables --input */*_pathabundance.tsv --output humann3_merged.tsv  
+  humann_join_tables --input *_pathabundance.tsv --output humann3_merged.tsv  
   '''
 
   stub:
