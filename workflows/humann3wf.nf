@@ -20,6 +20,7 @@ if(params.workflows.doHumann3_merge_only){
         tuple(dirName, file)
     }
     .groupTuple()
+    .map{it -> tuple(it[0], it[1][0], it[1][1], it[1][2]) } 
     .view{ "Humann3 channel from path grouped: $it" }
 
 }else{
