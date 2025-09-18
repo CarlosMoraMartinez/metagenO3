@@ -8,17 +8,33 @@ take:
 ch_fastq_filtered
 
 main:
-//ch_fastq_filtered.view{ "Humann3 input: $it" }
-concatFastq(ch_fastq_filtered)
-ch_concat_fastq = concatFastq.out
-    //.view{ "concat fastq output: $it" }
-doHumann3(
-        params.doHumann3.bowtie2db,
-        params.doHumann3.metaphlan_index, 
-        ch_concat_fastq
-)
-ch_humann3 = doHumann3.out
-    //.view{ "Humann3 output original: $it" }
+
+
+if(params.workflows.doHumann3_merge_only){
+
+   ch_humann3 = Channel
+    .fromPath(params.resources.mergeHumann3.merge_path, type: 'dir')   // lista solo carpetas
+    .map { dir -> 
+        // listamos los ficheros dentro de cada carpeta
+        Channel.fromPath("${dir}/*.{genefamilies.tsv,pathabundance.tsv,pathcoverage.tsv}")
+                .collect()
+                .map { file -> tuple(dir.getName().replace("_humann3results", ""), file[0], file[1], file[2]) }
+    }
+    .view{ "Humann3 channel from path: $it" }
+
+}else{
+    //ch_fastq_filtered.view{ "Humann3 input: $it" }
+    concatFastq(ch_fastq_filtered)
+    ch_concat_fastq = concatFastq.out
+        //.view{ "concat fastq output: $it" }
+    doHumann3(
+            params.doHumann3.bowtie2db,
+            params.doHumann3.metaphlan_index, 
+            ch_concat_fastq
+    )
+    ch_humann3 = doHumann3.out
+        //.view{ "Humann3 output original: $it" }
+}
 
 ch_genefamilies = ch_humann3.map{it -> it[1]}.collect().map{it -> [ "genefamilies", it ] }
 ch_pathabundance = ch_humann3.map{it -> it[2]}.collect().map{it -> [ "pathabundance", it ] }
