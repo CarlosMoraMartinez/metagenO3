@@ -45,7 +45,7 @@ ch_genefamilies = ch_humann3.map{it -> it[1]}.collect().map{it -> [ "genefamilie
 ch_pathabundance = ch_humann3.map{it -> it[2]}.collect().map{it -> [ "pathabundance", it ] }
 ch_pathcoverage = ch_humann3.map{it -> it[3]}.collect().map{it -> [ "pathcoverage", it ] }
 ch_humann3_grouped = ch_genefamilies.concat(ch_pathabundance).concat(ch_pathcoverage)
-    .view { "Humann3 output flat Length: ${it.size()}" }
+    .view { "Humann3 output flat Length: ${it[1].size()}" }
     //.view{ "Humann3 output flat: $it" }
 
 mergeHumann(ch_humann3_grouped)
