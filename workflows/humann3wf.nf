@@ -12,8 +12,9 @@ main:
 
 if(params.workflows.doHumann3_merge_only){
    println "Running HUMANN3 merge only workflow"
+   humann_input_files = file("${params.resources.mergeHumann3.merge_path}/**/*.tsv")
    ch_humann3 = Channel
-    .fromPath("${params.resources.mergeHumann3.merge_path}/**/*.tsv", type: 'file')
+    .fromPath(humann_input_files, type: 'file')
     .view{ "Humann3 channel from path: $it" }
     //.map { file ->
     //    def dirName = file.parent.getName().replace("_humann3results", "")
