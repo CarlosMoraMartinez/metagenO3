@@ -23,7 +23,7 @@ if(params.workflows.doHumann3_merge_only){
     .map{it -> tuple(it[0], 
                     it[1].find { f -> f.name.endsWith("genefamilies.tsv"), 
                     it[1].find { f -> f.name.endsWith("pathabundance.tsv"),
-                    it[1].find { f -> f.name.endsWith("pathcoverage.tsv") 
+                    it[1].find { f -> f.name.endsWith("pathcoverage.tsv")) 
         } 
     .view{ "Humann3 channel from path grouped: $it" }
 
