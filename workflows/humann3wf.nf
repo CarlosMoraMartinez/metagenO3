@@ -25,7 +25,7 @@ if(params.workflows.doHumann3_merge_only){
                     it[1].find { f -> f.name.endsWith("pathabundance.tsv") },
                     it[1].find { f -> f.name.endsWith("pathcoverage.tsv") }) 
         } 
-    .view{ "Humann3 channel from path grouped: $it" }
+    //.view{ "Humann3 channel from path grouped: $it" }
 
 }else{
     //ch_fastq_filtered.view{ "Humann3 input: $it" }
@@ -45,7 +45,7 @@ ch_genefamilies = ch_humann3.map{it -> it[1]}.collect().map{it -> [ "genefamilie
 ch_pathabundance = ch_humann3.map{it -> it[2]}.collect().map{it -> [ "pathabundance", it ] }
 ch_pathcoverage = ch_humann3.map{it -> it[3]}.collect().map{it -> [ "pathcoverage", it ] }
 ch_humann3_grouped = ch_genefamilies.concat(ch_pathabundance).concat(ch_pathcoverage)
-    .view{ "Humann3 output flat: $it" }
+    //.view{ "Humann3 output flat: $it" }
 
 mergeHumann(ch_humann3_grouped)
 ch_humann3_merged = mergeHumann.out
