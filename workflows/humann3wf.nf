@@ -12,24 +12,19 @@ main:
 
 if(params.workflows.doHumann3_merge_only){
    println "Running HUMANN3 merge only workflow"
-   ch_humann3 = Channel
-    .fromPath("${params.resources.mergeHumann3.merge_path}/**/*_{genefamilies,pathabundance,pathcoverage}.tsv")
-   ch_humann3.count().view { "Initial total files: $it" }
 
-    //.view{ "Humann3 channel from path: $it" }
-    ch_humann3 = ch_humann3.map { file ->
-        def dirName = file.parent.getName().replace("_humann3results", "")
-        tuple(dirName, file)
-    }
-    .groupTuple()
-    .map{it -> tuple(it[0], 
-                    it[1].find { f -> f.name.endsWith("genefamilies.tsv") }, 
-                    it[1].find { f -> f.name.endsWith("pathabundance.tsv") },
-                    it[1].find { f -> f.name.endsWith("pathcoverage.tsv") }) 
-        } 
-    //.view{ "Humann3 channel from path grouped: $it" }
+   ch_humann3 = Channel.empty()
+   
+   ch_genefamilies = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*_genefamilies.tsv", type: 'file')
+       .collect().map{it -> [ "genefamilies", it ] }
+   ch_pathabundance = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*_pathabundance.tsv", type: 'file')
+       .collect().map{it -> [ "pathabundance", it ] }
+   ch_pathcoverage  = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*_pathcoverage.tsv", type: 'file')
+       .collect().map{it -> [ "pathcoverage", it ] }
 
-    ch_humann3.count().view { "Initial samples: $it" }
+    ch_genefamilies.map{it -> it[1]}.count().view { "Initial genefamilies: $it" }
+    ch_pathabundance.map{it -> it[1]}.count().view { "Initial pathabundance: $it" }
+    ch_pathcoverage.map{it -> it[1]}.count().view { "Initial pathcoverage: $it" }
 
 }else{
     //ch_fastq_filtered.view{ "Humann3 input: $it" }
@@ -43,11 +38,11 @@ if(params.workflows.doHumann3_merge_only){
     )
     ch_humann3 = doHumann3.out
         //.view{ "Humann3 output original: $it" }
+    ch_genefamilies = ch_humann3.map{it -> it[1]}.collect().map{it -> [ "genefamilies", it ] }
+    ch_pathabundance = ch_humann3.map{it -> it[2]}.collect().map{it -> [ "pathabundance", it ] }
+    ch_pathcoverage = ch_humann3.map{it -> it[3]}.collect().map{it -> [ "pathcoverage", it ] }
 }
 
-ch_genefamilies = ch_humann3.map{it -> it[1]}.collect().map{it -> [ "genefamilies", it ] }
-ch_pathabundance = ch_humann3.map{it -> it[2]}.collect().map{it -> [ "pathabundance", it ] }
-ch_pathcoverage = ch_humann3.map{it -> it[3]}.collect().map{it -> [ "pathcoverage", it ] }
 ch_humann3_grouped = ch_genefamilies.concat(ch_pathabundance).concat(ch_pathcoverage)
     .view { "Humann3 output flat Length: ${it[1].size()}" }
     //.view{ "Humann3 output flat: $it" }
