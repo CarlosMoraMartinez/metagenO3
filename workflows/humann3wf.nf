@@ -15,15 +15,15 @@ if(params.workflows.doHumann3_merge_only){
 
    ch_humann3 = Channel.empty()
 
-   ch_genefamilies = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*_genefamilies.tsv", type: 'file')
+   ch_genefamilies = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*genefamilies.tsv", type: 'file')
        .collect()
        .view { "Humann3 input ch_genefamilies length: ${it.size()}" }
        .map{it -> [ "genefamilies", it ] }
-   ch_pathabundance = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*_pathabundance.tsv", type: 'file')
+   ch_pathabundance = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*pathabundance.tsv", type: 'file')
        .collect()
        .view { "Humann3 input ch_pathabundance length: ${it.size()}" }
        .map{it -> [ "pathabundance", it ] }
-   ch_pathcoverage  = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*_pathcoverage.tsv", type: 'file')
+   ch_pathcoverage  = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*pathcoverage.tsv", type: 'file')
        .collect()
        .view { "Humann3 input ch_pathcoverage length: ${it.size()}" }
        .map{it -> [ "pathcoverage", it ] }
