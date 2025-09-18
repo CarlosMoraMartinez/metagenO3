@@ -10,18 +10,18 @@ process mergeHumann{
   maxRetries 10
   publishDir "$results_dir/mg14_mergeHumann", mode: 'copy'
   input:
-    path humann_results_list
+    tuple(val(table_type), path(humann_results_list))
   output:
-  path("humann3_merged.tsv")
+    tuple(val(table_type), path("*_merged.tsv"))
 
   shell:
   '''
-  humann_join_tables --input . --output humann3_merged.tsv  
+  humann_join_tables --input . --output humann3_!{table_type}_merged.tsv   
   '''
 
   stub:
   """
   echo $humann_results_list
-  touch humann3_merged.tsv
+  touch 'humann3_'$table_type'_merged.tsv'
   """
 }

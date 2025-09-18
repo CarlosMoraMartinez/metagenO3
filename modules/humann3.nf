@@ -15,7 +15,7 @@ process doHumann3{
   tuple(val(illumina_id), path(fastq_merged))
 
   output:
-  path("${illumina_id}_humann3results/*.tsv")
+  tuple(val(illumina_id), path("${illumina_id}_humann3results/*genefamilies.tsv"), path("${illumina_id}_humann3results/*pathabundance.tsv"), path("${illumina_id}_humann3results/*pathcoverage.tsv")) 
   
   shell:
   '''

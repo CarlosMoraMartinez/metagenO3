@@ -18,17 +18,26 @@ doHumann3(
         ch_concat_fastq
 )
 ch_humann3 = doHumann3.out
-    //.view{ "Humann3 output: $it" }
-    .flatten()
-    .filter{it.name.endsWith('_pathabundance.tsv') }
-    .collect()
+    //.view{ "Humann3 output original: $it" }
+
+ch_genefamilies = ch_humann3.map{it -> it[1]}.collect().map{it -> [ "genefamilies", it ] }
+ch_pathabundance = ch_humann3.map{it -> it[2]}.collect().map{it -> [ "pathabundance", it ] }
+ch_pathcoverage = ch_humann3.map{it -> it[3]}.collect().map{it -> [ "pathcoverage", it ] }
+ch_humann3_grouped = ch_genefamilies.concat(ch_pathabundance).concat(ch_pathcoverage)
     //.view{ "Humann3 output flat: $it" }
 
-mergeHumann(ch_humann3)
+mergeHumann(ch_humann3_grouped)
 ch_humann3_merged = mergeHumann.out
-    //.view{ "Humann3 output merged: $it" }
+    .view{ "Humann3 output merged: $it" }
 
-translateHumann(ch_humann3_merged, params.translateHumann3.cazy_db)
+//ch_humann3_merged.filter{it[0] == "genefamilies"}.map{it -> it[1]}.view{ "Humann3 merged genefam: $it" }
+//ch_humann3_merged.filter{it[0] == "pathabundance"}.map{it -> it[1]}.view{ "Humann3 merged pathabundance: $it" }
+//ch_humann3_merged.filter{it[0] == "pathcoverage"}.map{it -> it[1]}view{ "Humann3 merged pathcoverage: $it" }
+
+translateHumann(ch_humann3_merged.filter{it[0] == "genefamilies"}.map{it -> it[1]}, 
+                ch_humann3_merged.filter{it[0] == "pathabundance"}.map{it -> it[1]}, 
+                ch_humann3_merged.filter{it[0] == "pathcoverage"}.map{it -> it[1]}, 
+                params.translateHumann3.cazy_db)
 ch_humann3_translated = translateHumann.out
     //.view{ "Humann3 output translated: $it" }
 
