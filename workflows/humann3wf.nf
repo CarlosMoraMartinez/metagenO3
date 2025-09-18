@@ -14,8 +14,10 @@ if(params.workflows.doHumann3_merge_only){
    println "Running HUMANN3 merge only workflow"
    ch_humann3 = Channel
     .fromPath("${params.resources.mergeHumann3.merge_path}/**/*_{genefamilies,pathabundance,pathcoverage}.tsv")
+   ch_humann3.count().view { "Initial total files: $it" }
+
     //.view{ "Humann3 channel from path: $it" }
-    .map { file ->
+    ch_humann3 = ch_humann3.map { file ->
         def dirName = file.parent.getName().replace("_humann3results", "")
         tuple(dirName, file)
     }
@@ -26,6 +28,8 @@ if(params.workflows.doHumann3_merge_only){
                     it[1].find { f -> f.name.endsWith("pathcoverage.tsv") }) 
         } 
     //.view{ "Humann3 channel from path grouped: $it" }
+
+    ch_humann3.count().view { "Initial samples: $it" }
 
 }else{
     //ch_fastq_filtered.view{ "Humann3 input: $it" }
