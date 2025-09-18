@@ -17,7 +17,7 @@ if(params.workflows.doHumann3_merge_only){
     .view{ "Humann3 results directories: $it" }
     .map { dir -> 
         // listamos los ficheros dentro de cada carpeta
-        Channel.fromPath("${dir}/*.{genefamilies.tsv,pathabundance.tsv,pathcoverage.tsv}")
+        Channel.fromPath("${dir}/*_{genefamilies.tsv,pathabundance.tsv,pathcoverage.tsv}")
                 .view{ "Humann3 samplpe directories: $it" }
                 .collect()
                 .map { file -> tuple(dir.getName().replace("_humann3results", ""), file[0], file[1], file[2]) }
