@@ -13,6 +13,7 @@ main:
 if(params.workflows.doHumann3_merge_only){
    println "Running HUMANN3 merge only workflow"
    humann_input_files = file("${params.resources.mergeHumann3.merge_path}/**/*.tsv")
+   println "Humann input files: $humann_input_files"
    ch_humann3 = Channel
     .fromPath(humann_input_files, type: 'file')
     .view{ "Humann3 channel from path: $it" }
