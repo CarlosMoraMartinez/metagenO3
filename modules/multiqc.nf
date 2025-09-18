@@ -6,10 +6,11 @@ process multiQC{
   queue params.resources.multiQC.queue
   clusterOptions params.resources.multiQC.clusterOptions
   errorStrategy { task.exitStatus in 1..2 ? 'retry' : 'ignore' }
-  maxRetries 10
+  maxRetries 1
   publishDir "$results_dir/mg11_multiqc", mode: 'copy'
   input:
     path yaml
+    path logo
     path ch_fastqc
     path trim_qc
     path bowtie2_err
@@ -18,11 +19,12 @@ process multiQC{
     path metaphlan_res
 
   output:
-  path("multiqc_report.html")
+  tuple(path("multiqc_report.html"), path("multiqc_report_data"))
 
   shell:
   '''
   mv !{yaml} multiqc_config.yaml
+  mv !{logo} logo.png
   multiqc --filename multiqc_report.html .  
   '''
 }

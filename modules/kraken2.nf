@@ -31,7 +31,7 @@ process callKraken2{
         --unclassified-out $unclassified#.tx.fastq \
         --paired !{fastq[0]} !{fastq[1]} \
         --output $outfile \
-        --report $report 2> $summary
+        --report $report !{params.callKraken2.extra_options} 2> $summary
   pigz -p 4 $unclassified'_1.tx.fastq' $unclassified'_2.tx.fastq'
   pigz -p 4 $outfile
   '''

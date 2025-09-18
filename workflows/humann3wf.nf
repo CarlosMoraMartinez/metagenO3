@@ -20,6 +20,7 @@ doHumann3(
 ch_humann3 = doHumann3.out
     //.view{ "Humann3 output: $it" }
     .flatten()
+    .filter{it.name.endsWith('_pathabundance.tsv') }
     .collect()
     //.view{ "Humann3 output flat: $it" }
 

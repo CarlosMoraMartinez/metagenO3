@@ -17,6 +17,7 @@ process removeHumanReads{
   
 
   shell:
+  if( params.platform == 'BGI' )
   '''
   # 1) Get the IDs of reads in bam file (reads mapping human), in different files for R1 and R2
 
@@ -36,5 +37,22 @@ process removeHumanReads{
 
   oname2=!{illumina_id}_2.filt.fastq.gz
   seqkit grep -v -f $readsfile_r2 !{fastq[1]} | gzip > $oname2
+  '''
+  else if( params.platform == 'Illumina' )
+    '''
+  # 1) Get the IDs of reads in bam file (reads mapping human), in different files for R1 and R2
+
+  readsfile=$(basename -s .bam !{bam}).readids.txt
+  samtools view !{bam} | cut -f 1 | sort -u > $readsfile
+
+  # 2) Generate fastq 1 without human reads using seqkit, compress with pigz (parallel gzip)
+
+  oname1=!{illumina_id}_1.filt.fastq.gz
+  seqkit grep -v -f $readsfile !{fastq[0]} | gzip > $oname1 #pigz -p !{params.resources.removeHumanReads.cpus} 
+  
+  # 3) Generate fastq 2 without human reads using seqkit, compress with pigz (parallel gzip)
+
+  oname2=!{illumina_id}_2.filt.fastq.gz
+  seqkit grep -v -f $readsfile !{fastq[1]} | gzip > $oname2
   '''
 }
