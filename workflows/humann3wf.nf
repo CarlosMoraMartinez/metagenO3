@@ -11,7 +11,7 @@ main:
 
 
 if(params.workflows.doHumann3_merge_only){
-
+   println "Running HUMANN3 merge only workflow"
    ch_humann3 = Channel
     .fromPath(params.resources.mergeHumann3.merge_path, type: 'dir')   // lista solo carpetas
     .map { dir -> 
