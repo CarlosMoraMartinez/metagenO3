@@ -14,17 +14,19 @@ if(params.workflows.doHumann3_merge_only){
    println "Running HUMANN3 merge only workflow"
 
    ch_humann3 = Channel.empty()
-   
-   ch_genefamilies = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*_genefamilies.tsv", type: 'file')
-       .collect().map{it -> [ "genefamilies", it ] }
-   ch_pathabundance = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*_pathabundance.tsv", type: 'file')
-       .collect().map{it -> [ "pathabundance", it ] }
-   ch_pathcoverage  = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*_pathcoverage.tsv", type: 'file')
-       .collect().map{it -> [ "pathcoverage", it ] }
 
-    ch_genefamilies.map{it -> it[1]}.count().view { "Initial genefamilies: $it" }
-    ch_pathabundance.map{it -> it[1]}.count().view { "Initial pathabundance: $it" }
-    ch_pathcoverage.map{it -> it[1]}.count().view { "Initial pathcoverage: $it" }
+   ch_genefamilies = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*_genefamilies.tsv", type: 'file')
+       .collect()
+       .view { "Humann3 input ch_genefamilies length: ${it[1].size()}" }
+       .map{it -> [ "genefamilies", it ] }
+   ch_pathabundance = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*_pathabundance.tsv", type: 'file')
+       .collect()
+       .view { "Humann3 input ch_pathabundance length: ${it[1].size()}" }
+       .map{it -> [ "pathabundance", it ] }
+   ch_pathcoverage  = Channel.fromPath("${params.resources.mergeHumann3.merge_path}/**/*_pathcoverage.tsv", type: 'file')
+       .collect()
+       .view { "Humann3 input ch_pathcoverage length: ${it[1].size()}" }
+       .map{it -> [ "pathcoverage", it ] }
 
 }else{
     //ch_fastq_filtered.view{ "Humann3 input: $it" }
