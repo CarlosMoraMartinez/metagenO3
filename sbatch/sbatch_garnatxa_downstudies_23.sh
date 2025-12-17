@@ -26,4 +26,4 @@ module load anaconda #3_2022.10
 
 nextflow run all.nf -c config/launch_downloaded_datasets/run_garnatxa_study2.config -profile conda -resume -with-report report2.html -with-dag pipeline_dag2.html
 
-nextflow run all.nf -c config/launch_downloaded_datasets/run_garnatxa_study3.config -profile conda -resume -with-report report3.html -with-dag pipeline_dag3.html
+#nextflow run all.nf -c config/launch_downloaded_datasets/run_garnatxa_study3.config -profile conda -resume -with-report report3.html -with-dag pipeline_dag3.html
