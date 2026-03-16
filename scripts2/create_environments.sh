@@ -256,6 +256,13 @@ mamba create -n metabuli-env
 mamba activate metabuli-env
 mamba install -c conda-forge -c bioconda metabuli
 # go to your database storage
-metabuli databases RefSeq_virus OUT_DIR 
+metabuli databases RefSeq_virus OUT_DIR refseq_virus
 
+# get also taxonomy; needed for refine even though not for metabuli itself
+mkdir taxonomy
+cd taxonomy
+wget https://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz
+tar -xvf taxdump.tar.gz
+
+# alternative (didnt work):
 wget https://metabuli.steineggerlab.workers.dev/refseq_virus.tar.gz

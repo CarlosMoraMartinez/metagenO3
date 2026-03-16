@@ -120,7 +120,7 @@ workflow {
    // Call METABULI workflow
    if(params.workflows.doMetabuli){
       METABULI(ch_fastq_filtered)
-      ch_metabuli_merged = METABULI.out.ch_metabuli
+      ch_metabuli_merged = METABULI.out.ch_metabuli_refined
    }else{
       ch_metabuli_merged = Channel.from([])
    }
