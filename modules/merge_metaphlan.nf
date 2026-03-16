@@ -16,12 +16,12 @@ process mergeMetaphlan{
   
   shell:
   '''
-  merge_metaphlan_tables.py *.txt -o metaphlan_merged.tsv  
+  merge_metaphlan_tables.py *.!{input_extension} -o metaphlan_merged.tsv  
   '''
 
   stub:
   """
   echo $metaphlan_results_list
-  touch humann3_merged.tsv
+  touch metaphlan_merged.tsv
   """
   }

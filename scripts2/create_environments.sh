@@ -63,8 +63,8 @@ conda activate humann-env
 conda install -y -c bioconda humann
 
 PHLANDATABASE='/DATA12/COMUN/DB/metaphlan'
-conda create -y --name metaphlan-env2 python=3.7
-conda activate metaphlan-env2
+conda create -y --name metaphlan-env python=3.7
+conda activate metaphlan-env
 conda install -y numpy pandas
 conda install -y conda-forge::biopython
 conda install -y -c conda-forge -c bioconda metaphlan
@@ -234,4 +234,20 @@ conda install -y -c bioconda kmcp
 
  #OPAL for comparison to ground truth
  # https://github.com/CAMI-challenge/OPAL?tab=readme-ov-file#inputs
+ 
+
+ # SYLPH
+ #https://github.com/bluenote-1577/sylph
+ mamba create -n sylph-env
+ mamba activate sylph-env
+ mamba install -c bioconda sylph
+ mamba install -c bioconda sylph-tax
+
+ # download GTDB-R220 pre-built database (~13 GB)
+wget http://faust.compbio.cs.cmu.edu/sylph-stuff/gtdb-r220-c200-dbv1.syldb
+
+mamba create -n sylphtax-env   -c conda-forge -c bioconda   python=3.10   sylph   requests   urllib
+mamba activate sylphtax-env
+mamba install -c bioconda sylph-tax
+
  
