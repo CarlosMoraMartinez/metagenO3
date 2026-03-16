@@ -9,6 +9,7 @@ include { CENTRIFUGER } from './workflows/centrifugerwf.nf'
 include { KMCP } from './workflows/kmcpwf.nf'
 include { GANON2 } from './workflows/ganon2wf.nf'
 include { SYLPH } from './workflows/sylphwf.nf'
+include { METABULI } from './workflows/metabuliwf.nf'
 
 
 workflow {
@@ -108,13 +109,22 @@ workflow {
       ch_ganonclassify_out = Channel.from([])
    }
 
-// Call SYLPH workflow
+    // Call SYLPH workflow
    if(params.workflows.doSylph){
       SYLPH(ch_fastq_filtered)
       ch_sylph_merged = SYLPH.out.ch_sylph_merged
    }else{
       ch_sylph_merged = Channel.from([])
    }
+   
+   // Call METABULI workflow
+   if(params.workflows.doMetabuli){
+      METABULI(ch_fastq_filtered)
+      ch_metabuli_merged = METABULI.out.ch_metabuli
+   }else{
+      ch_metabuli_merged = Channel.from([])
+   }
+
    
    //Call MultiQC workflow
    if(params.workflows.doMultiQC){

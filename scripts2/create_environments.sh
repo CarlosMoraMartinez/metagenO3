@@ -63,7 +63,7 @@ conda activate humann-env
 conda install -y -c bioconda humann
 
 PHLANDATABASE='/DATA12/COMUN/DB/metaphlan'
-conda create -y --name metaphlan-env python=3.7
+conda create -y --name metaphlan-env #python=3.7
 conda activate metaphlan-env
 conda install -y numpy pandas
 conda install -y conda-forge::biopython
@@ -250,4 +250,12 @@ mamba create -n sylphtax-env   -c conda-forge -c bioconda   python=3.10   sylph 
 mamba activate sylphtax-env
 mamba install -c bioconda sylph-tax
 
- 
+
+## METABULI
+mamba create -n metabuli-env
+mamba activate metabuli-env
+mamba install -c conda-forge -c bioconda metabuli
+# go to your database storage
+metabuli databases RefSeq_virus OUT_DIR 
+
+wget https://metabuli.steineggerlab.workers.dev/refseq_virus.tar.gz
