@@ -8,4 +8,4 @@ sylph profile /home/carlos/projects/benchmark4real/extra_data/gtdb-r220-c1000-db
 mkdir taxonomy_file_folder
 sylph-tax download --download-to taxonomy_file_folder
 
-sylph-tax taxprof results.tsv -t GTDB_r214 -o prefix_
+sylph-tax taxprof all_samples.sylph.tsv -t GTDB_r220 -o prefix_

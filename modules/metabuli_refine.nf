@@ -10,7 +10,7 @@ process callMetabuliRefine{
   maxRetries 10
   publishDir "$results_dir/mg31_metabuli_refine", mode: 'symlink'
   input:
-    path metabuli_db
+    path taxonomy_path
     tuple(val(illumina_id), path(metabuli_path))
 
   output:
@@ -20,17 +20,16 @@ process callMetabuliRefine{
   '''
 
   metabuli classifiedRefiner  !{metabuli_path}/!{illumina_id}_classifications.tsv \
-    !{params.resources.callMetabuli.taxonomy_path} \
+    !{taxonomy_path} \
     --threads !{task.cpus} \
     --min-score !{params.resources.callMetabuliRefine.min_score} \
     --remove-unclassified !{params.resources.callMetabuliRefine.remove_unclassified} \
-    --report 1
-
+    --report 0
   '''
 
   stub:
   """
-  mkdir metabuli_refined_!{illumina_id} 
+  mkdir metabuli_refined_$illumina_id
   """
   }
 

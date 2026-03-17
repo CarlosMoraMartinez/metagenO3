@@ -35,7 +35,7 @@ process callMetabuli{
 
   stub:
   """
-  mkdir metabuli_!{illumina_id}
+  mkdir metabuli_$illumina_id
   """
   }
 
