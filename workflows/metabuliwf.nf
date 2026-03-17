@@ -14,8 +14,8 @@ main:
     ch_metabuli = callMetabuli.out
       .view{ "Metabuli output: $it" }
 
-    if(params.resources.callMetabuliRefine.do ){
-        callMetabuliRefine(params.resources.callMetabuli.taxonomy_path, ch_metabuli)
+    if(params.callMetabuliRefine.do ){
+        callMetabuliRefine(params.callMetabuli.taxonomy_path, ch_metabuli)
         ch_metabuli_refined = callMetabuliRefine.out
         .view{ "Metabuli refined output: $it" }
     }else{
@@ -31,9 +31,9 @@ main:
       .collect()
       .view{ "Metabuli collected output: $it" }
 
-    taxpastaMerge(params.resources.callMetabuli.taxonomy_path, 
+    taxpastaMerge(params.callMetabuli.taxonomy_path, 
                   "metabuli", "kraken2", 
-                  params.resources.taxpastaMerge.output_format_metabuli,
+                  params.taxpastaMerge.output_format_metabuli,
                   ch_noheader_collapsed)
     ch_taxpasta = taxpastaMerge.out
        .view{ "Taxpasta output: $it" }

@@ -10,9 +10,9 @@ process mergeSylph{
   maxRetries 10
   publishDir "$results_dir/mg29_mergesylph", mode: 'copy'
   input:
-    path metaphlan_results_list
+    path sylph_results_list
   output:
-  path("sylph_merged.tsv")
+    path("sylph_merged.tsv")
   
   shell:
   '''
@@ -21,7 +21,7 @@ process mergeSylph{
 
   stub:
   """
-  echo $metaphlan_results_list
-  touch metaphlan_merged.tsv
+  echo $sylph_results_list
+  touch sylph_merged.tsv
   """
   }

@@ -10,6 +10,7 @@ include { KMCP } from './workflows/kmcpwf.nf'
 include { GANON2 } from './workflows/ganon2wf.nf'
 include { SYLPH } from './workflows/sylphwf.nf'
 include { METABULI } from './workflows/metabuliwf.nf'
+include { MOTUS } from './workflows/motuswf.nf'
 
 
 workflow {
@@ -126,6 +127,15 @@ workflow {
       ch_metabuli_merged = Channel.from([])
    }
 
+   // Call mOTUs workflow
+   if(params.workflows.doMOTUS){
+      MOTUS(ch_fastq_filtered)
+      ch_mOTUS = MOTUS.out.ch_mOTUS
+      ch_mOTUS_merged = MOTUS.out.ch_mOTUS_merged
+   }else{
+      ch_mOTUS = Channel.from([])
+      ch_mOTUS_merged = Channel.from([])
+   }
    
    //Call MultiQC workflow
    if(params.workflows.doMultiQC){

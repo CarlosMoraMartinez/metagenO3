@@ -6,23 +6,24 @@ import os
 import sys
 
 
-def read_mpa(file):
+def read_mpa(file, merge_column="consensus_taxonomy"):
     """
     Read a sylphmpa file and return a dataframe
     """
-    df = pd.read_csv(
-        file,
-        sep="\t",
-        comment="#",
-        header=0
-    )
-
-    if df.shape[1] < 2:
-        raise ValueError(f"{file} is not a valid mpa file")
-
-    df = df.iloc[:, :2]
-    df.columns = ["taxon", "abundance"]
-
+    header = ""
+    datalist = []
+    of = open(file, 'r')
+    for line in of:
+        if line.startswith('#'):
+            if merge_column in line:
+                header = line.strip().replace('#', '').split('\t')
+                continue
+            else:
+                continue
+        else:
+            datalist.append(line.strip().split('\t'))
+    of.close()
+    df = pd.DataFrame(datalist, columns=header)
     return df
 
 
@@ -51,16 +52,15 @@ def main():
 
     for file in args.inputs:
 
-        sample = os.path.basename(file).replace(".sylphmpa", "").replace(".fastq.gz", "").replace(".fq.gz", "")
+        sample = os.path.basename(file).replace(".tsv", "").replace(".fastq.gz", "").replace(".fq.gz", "")
 
         df = read_mpa(file)
-        df = df.set_index("taxon")
-        df.columns = [sample]
 
         if merged is None:
             merged = df
         else:
-            merged = merged.join(df, how="outer")
+            cols = merged.columns.intersection(df.columns)
+            merged = pd.merge(merged, df, on=cols.tolist(), how='outer')
 
     merged = merged.fillna(0)
 
