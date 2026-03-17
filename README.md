@@ -20,3 +20,17 @@ Individual processes (e.g., call FastQC, call Kraken2, etc) are in individual fi
 Workflows use a set of related processes (e.g., Trimmomatic -> Bowtie2). Each workflow is in an individual file in the **workflows/** directory.
 
 Configuration files are in **config/**, and **sbatch** files to launch the pipeline in a server are in **sbatch/**. The **scripts/** directory contains the original **sbatch** scripts used to create the pipeline. **scripts2/** contains some useful extra scripts. 
+
+# Metagenomics profilers included so far
+
+- Kraken2
+- Krakenuniq
+- Bracken (after K2/KU)
+- Metaphlan4
+- Centrifuger
+- mOTUs
+- KMCP
+- GANON2
+- Sylph
+- Metabuli
+- Humann3 (functional analysis)
