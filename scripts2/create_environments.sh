@@ -266,3 +266,10 @@ tar -xvf taxdump.tar.gz
 
 # alternative (didnt work):
 wget https://metabuli.steineggerlab.workers.dev/refseq_virus.tar.gz
+
+
+## Sourmash
+
+# database GTDB220:
+wget https://farm.cse.ucdavis.edu/~ctbrown/sourmash-db.new/gtdb-rs220/gtdb-reps-rs220-k31.dna.zip
+

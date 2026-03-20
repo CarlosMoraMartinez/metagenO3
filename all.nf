@@ -11,6 +11,7 @@ include { GANON2 } from './workflows/ganon2wf.nf'
 include { SYLPH } from './workflows/sylphwf.nf'
 include { METABULI } from './workflows/metabuliwf.nf'
 include { MOTUS } from './workflows/motuswf.nf'
+include { SOURMASH } from './workflows/sourmashwf.nf'
 
 
 workflow {
@@ -132,6 +133,16 @@ workflow {
       MOTUS(ch_fastq_filtered)
       ch_mOTUS = MOTUS.out.ch_mOTUS
       ch_mOTUS_merged = MOTUS.out.ch_mOTUS_merged
+   }else{
+      ch_mOTUS = Channel.from([])
+      ch_mOTUS_merged = Channel.from([])
+   }
+
+    // Call Sourmash workflow
+   if(params.workflows.doSourmash){
+      SOURMASH(ch_fastq_filtered)
+      ch_smash_tax = SOURMASH.out.ch_sourmash_gather_tax
+
    }else{
       ch_mOTUS = Channel.from([])
       ch_mOTUS_merged = Channel.from([])
